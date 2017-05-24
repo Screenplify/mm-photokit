@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <!-- If enabled data:image for preview not shown -->
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'"> -->
+    <title></title>
+
+    <link rel="manifest" href="manifest.json">
+
+    <!-- un-comment this code to enable service worker
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('service-worker.js')
+                .then(() => console.log('service worker installed'))
+                .catch(err => console.log('Error', err));
+    }
+    </script>-->
+
+    <link href="assets/lib/ionic/css/ionic.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/lib/ngRzslider/rzslider.min.css">
+    <link href="assets/css/style.css" rel="stylesheet">
+
+    <script src="assets/lib/ionic/js/ionic.bundle.js"></script>
+    <script src="assets/lib/angular-filter.min.js"></script>
+    <script src="assets/lib/jquery-2.2.4.min.js"></script>
+    <script src="assets/lib/ngCordova/dist/ng-cordova.min.js"></script>
+    <script src="assets/lib/underscore.js"></script>
+    <script src="assets/lib/ngRzslider/rzslider.min.js"></script>
+    <script src="cordova.js"></script>
+    <script src="CameraPreview.js"></script>
+    <script>
+        var APP_NAME = 'mmPhotokit',
+            APP_MODULES = ['ionic', 'ngCordova','angular.filter', 'rzModule'];
+    </script>
+
+    <script src="assets/js/ng-main.js"></script>
+    <script src="assets/js/factories/DataFactory.js"></script>
+    <script src="assets/js/controllers/DashboardController.js"></script>
+    <script src="assets/js/controllers/CameraController.js"></script>
+    <script src="assets/js/controllers/ProductsController.js"></script>
+    <script src="assets/js/controllers/FormController.js"></script>
+
+</head>
+<body ng-app="mmPhotokit">
+
+    <!-- <ion-nav-view name="main-content"></ion-nav-view> -->
+    <div ui-view="main-content"></div>
+
+</body>
+</html>

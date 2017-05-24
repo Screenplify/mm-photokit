@@ -1,0 +1,119 @@
+
+	
+	<div class="camera-overlay" ng-class="{'show-bg': !camera.enabled}"></div>
+	<div class="camera-overlay" ng-class="{'dimmed': camera.enabled, 'off': !samples.image.enabled  }" ng-style="{'background-image': 'url('+imagePath+samples.image.image+')'}" id="sample-image"></div>
+	<div class="camera-overlay" ng-click="tapFocus($event)" ng-class="{'dimmed': camera.enabled, 'off': !samples.guide.enabled  }" ng-style="{'background-image': 'url('+imagePath+samples.guide.image+')'}" id="sample-guide"></div>
+
+	<div class="camera-frame"></div>
+    
+    <div class="camera-guideline vertical left" ng-style="{'left': guideLines.vertical.value+'px'}"></div> 
+    <div class="camera-guideline vertical right" ng-style="{'right': guideLines.vertical.value+'px'}"></div> 
+    <div class="camera-guideline horizontal top" ng-style="{'top': guideLines.horizontal.value+'px'}"></div> 
+    <div class="camera-guideline horizontal bottom" ng-style="{'bottom': guideLines.horizontal.value+'px'}"></div>
+
+    <div 
+        class="camera-markerlines" 
+        ng-style="{'background-image': 'url('+imagePath+samples.guide.marker+')', 'left': samples.marker.left+'px', 'bottom': guideLines.horizontal.value+'px'}"
+        ng-class="{'off': !samples.marker.enabled  }"
+        on-drag="markerDrag($event)">
+    </div> 
+
+    <div class="camera-slider vertical">
+        <rzslider class="custom-slider" rz-slider-model="guideLines.vertical.value" rz-slider-options="guideLines.vertical.options"></rzslider>
+    </div>
+
+    <div class="camera-slider horizontal">
+        <rzslider class="custom-slider" rz-slider-model="guideLines.horizontal.value" rz-slider-options="guideLines.horizontal.options"></rzslider>
+    </div>
+
+	<div class="btn btn-takePicture" ng-click="takePicture()" on-touch="takePicture()"></div>
+    <div class="btn btn-sm btn-back" ui-sref="form({productId: productID})"></div>
+    <div class="btn btn-sm btn-info" on-hold="info.Toggle()"></div>
+	<div class="btn btn-sm btn-views" ng-click="viewsPanel.enabled = !viewsPanel.enabled" ng-class="{'is-open': viewsPanel.enabled}"></div>
+    
+    <!-- 
+	<div class="btn btn-sm btn-toggle btn-toggle-camera" ng-click="camera.Toggle()" ng-class="{'on': camera.enabled, 'off': !camera.enabled}"></div>
+    <div class="btn btn-sm btn-toggle btn-sample-guide" ng-click="samples.guide.enabled = !samples.guide.enabled" ng-class="{'on': samples.guide.enabled, 'off': !samples.guide.enabled}"></div>
+     -->
+    
+    <div class="btn btn-sm btn-toggle dtoggle btn-sample-image" ng-click="handleImageToggle(samples.image.enabled)" ng-class="{'on': samples.image.enabled, 'off': !samples.image.enabled, 'don': camera.enabled, 'doff': !camera.enabled}"></div>
+	<div class="btn btn-sm btn-toggle btn-sample-marker" ng-click="samples.marker.enabled = !samples.marker.enabled" ng-class="{'on': samples.marker.enabled, 'off': !samples.marker.enabled}"></div>
+
+    <!-- <div class="views-menu" ng-class="{'is-open': viewsPanel.enabled}">
+        <ion-view>
+            <ion-header-bar>
+                <button class="button button-clear button-positive" ng-click="viewsPanel.enabled = false">Close</button>
+                <h1 class="title">Views</h1>
+            </ion-header-bar>
+            <ion-content>
+                <ion-list>
+                    <ion-item class="item-icon-right item-thumbnail-left" ng-repeat="view in productDetails.views" ng-click="changeView($index)">
+                        <img ng-src="{{imagePath+view.guide.image}}">
+                        <span style="text-transform: uppercase;">{{view.type}}</span><p>{{view.count}}</p> 
+                        <i ng-show="view.type == productView.type" class="icon ion-checkmark"></i>
+                    </ion-item>
+                </ion-list>
+            </ion-content>
+        </ion-view>
+    </div> -->
+
+    <div class="views-menu-2" ng-class="{'is-open': viewsPanel.enabled}">
+        <ul>
+            <li 
+                ng-repeat="view in productDetails.views" 
+                ng-click="changeView($index)" 
+                ng-class="{'active': view.type == productView.type}">
+
+                {{view.type | cut:true:2:' '}}
+                <span class="view-count" ng-class="{'on': view.count > 0, 'off': view.count < 1}">{{view.count}}</span>
+            </li>
+            <!-- <li>FR<span class="view-count on">3</span></li>
+            <li>BA<span class="view-count on ">2</span></li>
+            <li>SI<span class="view-count off">0</span></li> -->
+        </ul>
+    </div>
+
+    <script id="mmpk-save.html" type="text/ng-template">
+        <ion-modal-view>
+            <ion-header-bar>
+            	<button class="button button-clear button-positive" ng-click="saveImage()">Save</button>
+                <h1 class="title">Preview Image</h1>
+                <button class="button button-clear button-positive" ng-click="save.Close()">Close</button>
+            </ion-header-bar>
+            <ion-content>
+                <div class="list card">
+                	<div class="item item-body">
+                		<img ng-src="{{image}}" alt="" class="full-image">
+                		<!-- <pre>{{image}}</pre> -->
+                	</div>
+                </div>
+            </ion-content>
+        </ion-modal-view>
+    </script>
+
+
+    <script id="mmpk-info.html" type="text/ng-template">
+        <ion-modal-view>
+            <ion-header-bar>
+                <h1 class="title">Info</h1>
+                <button class="button button-clear button-positive" ng-click="info.Close()">Close</button>
+            </ion-header-bar>
+            <ion-content>
+
+				<ul class="list">
+					<li class="item item-divider">Screen</li>
+				    <li class="item">{{screenWidth}} x {{screenHeight}}</li>
+
+					<li class="item item-divider">Storage</li>
+				    <li class="item">{{deviceStorage}}</li>
+
+					<li class="item item-divider">Image Resolution</li>
+				    <li class="item">{{imageResolutuions.width}} x {{imageResolutuions.height}}</li>
+					
+					<li class="item item-divider">Available Resolutions</li>
+					<li class="item" ng-repeat="res in imageResolutuions.supported">{{res}}</li>
+				</ul>
+
+            </ion-content>
+        </ion-modal-view>
+    </script>

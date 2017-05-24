@@ -1,0 +1,21 @@
+
+
+    <ion-view>
+        <ion-header-bar class="bar-stable">
+            <div class="buttons">
+                <a class="button" ui-sref="dashboard">Dashboard</a>
+            </div>
+            <h1 class="title">Products</h1>
+        </ion-header-bar>
+        <ion-content>
+
+            <ion-list ng-repeat="(key, value) in productsList | groupBy: 'category'">
+                <ion-item class="item-divider"><span style="text-transform: uppercase;">{{ key }}</span></ion-item>
+                <ion-item ng-repeat="product in value" ui-sref="form({productId: product.id})">
+                	<h2>{{product.name}}</h2>
+                	<p>{{product.desc}}</p>
+                </ion-item>
+            </ion-list>
+        
+        </ion-content>
+    </ion-view>
