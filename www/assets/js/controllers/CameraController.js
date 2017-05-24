@@ -259,11 +259,12 @@ function CameraController($scope, $http, $ionicModal, $cordovaFile, $ionicLoadin
 					_.each(resp, function(item){
 						var _split = item.name.split('_'),
 							_id = _split[1],
-							_view = _split[2];
+							_view = _split[2],
+							_stockcode = _split[3];
 
 						if(item.isFile && _id == $scope.productID){
 							_.each($scope.productDetails.views, function(_item){
-								if(_item.type == _view){
+								if((_item.type == _view) && ($scope.stockCode == _stockcode)){
 									_item['count'] = ('count' in _item)? _item.count + 1 : 1;
 								}
 							});
